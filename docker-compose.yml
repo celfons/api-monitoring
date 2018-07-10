@@ -10,3 +10,13 @@ services:
             - ./data/db:/data/db
           ports:
               - 27017:27017
+  metabase:
+    image: metabase/metabase
+    ports:
+      - 3000:3000
+  stubby4j:
+      image: sandokandias/stubby4j-docker
+      environment:
+        STUBBY_PORT: 8883
+      volumes:
+        - ./src/main/resources/stubby4j/integrations.yml:/usr/local/stubby.yml
