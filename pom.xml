@@ -13,6 +13,7 @@
         <nhaarman.version>1.5.0</nhaarman.version>
         <khttp.version>0.1.0</khttp.version>
         <log4j.version>2.6.2</log4j.version>
+        <mapper.version>2.1.0</mapper.version>
     </properties>
 
     <parent>
@@ -47,6 +48,23 @@
             <groupId>com.nhaarman</groupId>
             <artifactId>mockito-kotlin-kt1.1</artifactId>
             <version>${nhaarman.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>${mapper.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.modelmapper.extensions</groupId>
+            <artifactId>modelmapper-jackson</artifactId>
+            <version>${mapper.version}</version>
         </dependency>
 
         <dependency>
