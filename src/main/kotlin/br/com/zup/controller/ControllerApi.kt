@@ -1,22 +1,23 @@
 package br.com.zup.controller
 
 import br.com.zup.api.InterfaceApi
-import br.com.zup.model.Customer
-import br.com.zup.repository.CustomerMongoRepository
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import br.com.zup.integration.Integration
+import br.com.zup.model.Token
+import br.com.zup.repository.TokenMongoRepository
 
 @RestController
 class ControllerApi(
-        private val customerMongoRepository: CustomerMongoRepository
+        private val integration: Integration,
+        private var tokenMongoRepository: TokenMongoRepository
 ) : InterfaceApi {
 
-    override fun findAll(): List<Any> {
-        return customerMongoRepository.findAll()
+    override fun token(): Token {
+        return integration.getToken()
     }
 
-    override fun save(@RequestBody customer: Customer): Customer {
-        return customerMongoRepository.save(customer)
+    override fun findAll(): List<Any> {
+        return tokenMongoRepository.findAll()
     }
 
 }
