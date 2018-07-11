@@ -47,13 +47,20 @@ class Integration(
         val response: Response = POST(
                 url = loginUrl,
                 params = mapOf(
-                        Pair("access_token", token.access_token!!)
+                        Pair("access_token", token.access_token!!),
+                        Pair("Content-Type", "application/json")
                 ),
                 data = JSONObject(loginRequest)
         )
 
-        return jacksonObjectMapper().readValue(response.text)
+        return try {
+            jacksonObjectMapper().readValue(response.text)
+        }catch (e: Exception){
+            throw BusinessException(response.text)
+        }
 
     }
 
 }
+
+data class BusinessException(val error: String?): Exception()
