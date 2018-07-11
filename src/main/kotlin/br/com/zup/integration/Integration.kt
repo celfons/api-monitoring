@@ -3,6 +3,7 @@ package br.com.zup.integration
 import br.com.zup.model.LoginResponse
 import br.com.zup.model.Token
 import br.com.zup.model.LoginRequest
+import br.com.zup.model.Profile
 import br.com.zup.repository.TokenMongoRepository
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -11,6 +12,7 @@ import org.json.JSONObject
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import khttp.post as POST
+import khttp.get as GET
 
 @Service
 class Integration(
@@ -22,6 +24,9 @@ class Integration(
 
     @Value("\${loginUrl}")
     private lateinit var loginUrl: String
+
+    @Value("\${profileUrl}")
+    private lateinit var profileUrl: String
 
     fun getToken(): Token {
 
@@ -40,20 +45,42 @@ class Integration(
 
     }
 
-    fun getLogin(loginRequest: LoginRequest): LoginResponse {
+    fun getLogin(loginRequest: LoginRequest, tokenRequest: String? = null): LoginResponse {
 
-        val token = getToken()
+        val token = if(tokenRequest.isNullOrEmpty()) {
+             getToken().access_token
+        }
+        else{
+            tokenRequest
+        }
 
         val response: Response = POST(
                 url = loginUrl,
                 headers = mapOf(Pair("Content-Type", "application/json")),
                 params = mapOf(
-                        Pair("access_token", token.access_token!!)
+                        Pair("access_token", token!!)
                 ),
                 json = JSONObject(loginRequest)
         )
 
         return jacksonObjectMapper().readValue(response.text)
+    }
+
+    fun getProfile(loginRequest: LoginRequest): Profile {
+
+        val token = getToken()
+
+        getLogin(loginRequest, token.access_token)
+
+        val response: Response = GET(
+                url = profileUrl,
+                params = mapOf(
+                        Pair("access_token", token.access_token!!)
+                )
+        )
+
+        return jacksonObjectMapper().readValue(response.text)
+
     }
 
 }
