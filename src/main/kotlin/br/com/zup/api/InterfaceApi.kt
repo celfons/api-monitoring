@@ -50,7 +50,7 @@ interface InterfaceApi{
             method = [(RequestMethod.GET)],
             produces = [(MediaType.APPLICATION_JSON_VALUE)]
     )
-    fun findTokens() : List<Any>
+    fun findStatus() : List<Any>
 
 
 }

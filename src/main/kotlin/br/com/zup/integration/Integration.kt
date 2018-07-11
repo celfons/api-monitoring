@@ -4,19 +4,21 @@ import br.com.zup.model.LoginResponse
 import br.com.zup.model.Token
 import br.com.zup.model.LoginRequest
 import br.com.zup.model.Profile
-import br.com.zup.repository.TokenMongoRepository
+import br.com.zup.model.StatusCode
+import br.com.zup.repository.StatusMongoRepository
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import khttp.responses.Response
 import org.json.JSONObject
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
+import java.time.ZonedDateTime
 import khttp.post as POST
 import khttp.get as GET
 
 @Service
 class Integration(
-        private var tokenMongoRepository: TokenMongoRepository
+        private var statusMongoRepository: StatusMongoRepository
 ) {
 
     @Value("\${tokenUrl}")
@@ -39,9 +41,9 @@ class Integration(
                 )
         )
 
-        val token: Token = jacksonObjectMapper().readValue(response.text)
+        statusMongoRepository.save(StatusCode(response.statusCode, "token", ZonedDateTime.now().toString()))
 
-        return tokenMongoRepository.save(token)
+        return jacksonObjectMapper().readValue(response.text)
 
     }
 
@@ -63,6 +65,8 @@ class Integration(
                 json = JSONObject(loginRequest)
         )
 
+        statusMongoRepository.save(StatusCode(response.statusCode, "login", ZonedDateTime.now().toString()))
+
         return jacksonObjectMapper().readValue(response.text)
     }
 
@@ -78,6 +82,8 @@ class Integration(
                         Pair("access_token", token.access_token!!)
                 )
         )
+
+        statusMongoRepository.save(StatusCode(response.statusCode, "profile", ZonedDateTime.now().toString()))
 
         return jacksonObjectMapper().readValue(response.text)
 

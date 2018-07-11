@@ -7,14 +7,14 @@ import br.com.zup.model.Token
 import br.com.zup.model.LoginRequest
 import br.com.zup.model.LoginResponse
 import br.com.zup.model.Profile
-import br.com.zup.repository.TokenMongoRepository
+import br.com.zup.repository.StatusMongoRepository
 import org.springframework.web.bind.annotation.RequestBody
 import javax.validation.Valid
 
 @RestController
 class ControllerApi(
         private val integration: Integration,
-        private var tokenMongoRepository: TokenMongoRepository
+        private var statusMongoRepository: StatusMongoRepository
 ) : InterfaceApi {
 
     override fun token(): Token {
@@ -29,8 +29,8 @@ class ControllerApi(
         return integration.getProfile(loginRequest)
     }
 
-    override fun findTokens(): List<Any> {
-        return tokenMongoRepository.findAll()
+    override fun findStatus(): List<Any> {
+        return statusMongoRepository.findAll()
     }
 
 }
