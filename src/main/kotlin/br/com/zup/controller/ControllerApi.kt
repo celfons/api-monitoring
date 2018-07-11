@@ -4,7 +4,11 @@ import br.com.zup.api.InterfaceApi
 import org.springframework.web.bind.annotation.RestController
 import br.com.zup.integration.Integration
 import br.com.zup.model.Token
+import br.com.zup.model.LoginRequest
+import br.com.zup.model.LoginResponse
 import br.com.zup.repository.TokenMongoRepository
+import org.springframework.web.bind.annotation.RequestBody
+import javax.validation.Valid
 
 @RestController
 class ControllerApi(
@@ -16,7 +20,11 @@ class ControllerApi(
         return integration.getToken()
     }
 
-    override fun findAll(): List<Any> {
+    override fun login(@RequestBody @Valid loginRequest: LoginRequest): LoginResponse {
+        return integration.getLogin(loginRequest)
+    }
+
+    override fun findTokens(): List<Any> {
         return tokenMongoRepository.findAll()
     }
 

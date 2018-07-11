@@ -14,6 +14,7 @@
         <khttp.version>0.1.0</khttp.version>
         <log4j.version>2.6.2</log4j.version>
         <jackson.version>2.9.2</jackson.version>
+        <commons.version>1.11</commons.version>
     </properties>
 
     <parent>
@@ -87,6 +88,12 @@
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons.version}</version>
         </dependency>
 
     </dependencies>

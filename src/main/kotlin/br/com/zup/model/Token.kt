@@ -6,10 +6,10 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document(collection="token")
 data class Token(
         @Id
-        var id: String? = null,
-        var access_token: String? = null,
-        var token_type: String? = null,
-        var expires_in: String? = null
+        var id: String?,
+        var access_token: String?,
+        var token_type: String?,
+        var expires_in: String?
 ){
 
     override fun toString(): String{
