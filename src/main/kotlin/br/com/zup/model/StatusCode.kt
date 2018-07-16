@@ -2,7 +2,6 @@ package br.com.zup.model
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
-import java.time.ZonedDateTime
 
 @Document(collection="status")
 data class StatusCode(

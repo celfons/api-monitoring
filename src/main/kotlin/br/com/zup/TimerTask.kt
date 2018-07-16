@@ -1,17 +1,22 @@
 package br.com.zup
 
 import br.com.zup.integration.Integration
-import br.com.zup.model.LoginRequest
+import br.com.zup.repository.ServiceMongoRepository
 
 class TimerTask(
-        private val integration: Integration
+        private val integration: Integration,
+        private var serviceMongoRepository: ServiceMongoRepository
 ){
 
     fun run() {
-        while(true) {
-            integration.getProfile(LoginRequest("marcelr", "dSRiejY0TSt4"))
-            Thread.sleep(600 * 1000)
+
+        val listServices = serviceMongoRepository.findAll()
+
+        listServices.forEach{
+            integration.integrationService(it)
         }
+
+        Thread.sleep(600 * 1000)
     }
 
 }

@@ -1,8 +1,8 @@
 package br.com.zup.repository
 
-import br.com.zup.model.StatusCode
+import br.com.zup.model.Service
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface StatusMongoRepository: MongoRepository<StatusCode, String>
+interface ServiceMongoRepository: MongoRepository<Service, String>
