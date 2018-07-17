@@ -1,19 +1,24 @@
 package br.com.zup.integration
 
-import org.springframework.beans.factory.annotation.Value
+import br.com.zup.model.StatusCode
+import br.com.zup.model.Service as ServiceModel
+import br.com.zup.repository.StatusMongoRepository
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import khttp.responses.Response
+import org.json.JSONObject
 import org.springframework.stereotype.Service
+import java.time.ZonedDateTime
+import khttp.post as POST
 import khttp.get as GET
 
 @Service
-class Integration {
+class Integration(
+        private var statusMongoRepository: StatusMongoRepository
+) {
 
-<<<<<<< Updated upstream
-    @Value("\${url}")
-    private lateinit var url: String
-
-    fun getAnything(header: String) {
-=======
     fun integrationService(service: ServiceModel){
+
 
         val response = if(service.method == ServiceModel.Method.GET){
 
@@ -38,10 +43,7 @@ class Integration {
         }
 
         statusMongoRepository.save(StatusCode(response.statusCode, service.name, ZonedDateTime.now().toString()))
->>>>>>> Stashed changes
 
-        val response = GET(url = url)
     }
-
 
 }

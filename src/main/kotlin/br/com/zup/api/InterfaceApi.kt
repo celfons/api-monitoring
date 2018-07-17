@@ -1,24 +1,18 @@
 package br.com.zup.api
 
-import br.com.zup.model.Customer
+import br.com.zup.model.Service
+import br.com.zup.model.StatusCode
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.ResponseStatus
+import javax.validation.Valid
 
 interface InterfaceApi{
-
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    @RequestMapping(
-            "/api",
-            method = [(RequestMethod.GET)],
-            produces = [(MediaType.APPLICATION_JSON_VALUE)]
-    )
-    fun findAll() : List<Any>
 
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
@@ -27,6 +21,41 @@ interface InterfaceApi{
             method = [(RequestMethod.POST)],
             produces = [(MediaType.APPLICATION_JSON_VALUE)]
     )
-    fun save(@RequestBody customer: Customer): Customer
+    fun createService(@RequestBody @Valid service: Service): Service
 
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @RequestMapping(
+            "/api",
+            method = [(RequestMethod.GET)],
+            produces = [(MediaType.APPLICATION_JSON_VALUE)]
+    )
+    fun readService(): MutableList<Service>?
+
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @RequestMapping(
+            "/api",
+            method = [(RequestMethod.PUT)],
+            produces = [(MediaType.APPLICATION_JSON_VALUE)]
+    )
+    fun updateService(@PathVariable("serviceName") serviceName: String, @RequestBody @Valid service: Service): Service
+
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @RequestMapping(
+            "/api",
+            method = [(RequestMethod.DELETE)],
+            produces = [(MediaType.APPLICATION_JSON_VALUE)]
+    )
+    fun deleteService(@PathVariable("serviceName") serviceName: String)
+
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @RequestMapping(
+            "/status",
+            method = [(RequestMethod.GET)],
+            produces = [(MediaType.APPLICATION_JSON_VALUE)]
+    )
+    fun listStatus(): MutableList<StatusCode>?
 }
