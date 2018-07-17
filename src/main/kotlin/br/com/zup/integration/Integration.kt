@@ -67,7 +67,8 @@ class Integration(
                     headers = mapOf(Pair("Content-Type", "application/json")),
                     params = mapOf(
                             Pair("access_token", token.access_token!!)
-                    )
+                    ).plus(service.queryParam!!),
+                    json = service.data
             )
 
         }
@@ -79,7 +80,7 @@ class Integration(
                     headers = mapOf(Pair("Content-Type", "application/json")),
                     params = mapOf(
                             Pair("access_token", token.access_token!!)
-                    ),
+                    ).plus(service.queryParam!!),
                     json = service.data
             )
 
