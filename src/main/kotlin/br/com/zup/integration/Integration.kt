@@ -45,7 +45,7 @@ class Integration(
                 json = JSONObject("""
                     {
                         "usuario": "marcelr",
-                        "seha": "dSRiejY0TSt4"
+                        "senha": "dSRiejY0TSt4"
                     }
                 """)
         )
