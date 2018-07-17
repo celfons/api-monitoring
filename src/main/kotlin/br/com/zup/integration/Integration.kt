@@ -3,11 +3,11 @@ package br.com.zup.integration
 import br.com.zup.model.StatusCode
 import br.com.zup.model.Service as ServiceModel
 import br.com.zup.model.Token
-import br.com.zup.repository.ServiceMongoRepository
 import br.com.zup.repository.StatusMongoRepository
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import khttp.responses.Response
+import org.json.JSONObject
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 import khttp.post as POST
@@ -32,22 +32,20 @@ class Integration(
         return jacksonObjectMapper().readValue(response.text)
     }
 
-    private fun getLogin(access_token: String?) {
-
-        val token = if (access_token != null) getToken().access_token else access_token
+    private fun getLogin(access_token: String) {
 
         POST(
                 url = "https://wsdesenv.hdi.com.br/rest/WebAppExecutivo.hdi/v1/login",
                 headers = mapOf(Pair("Content-Type", "application/json")),
                 params = mapOf(
-                        Pair("access_token", token!!)
+                        Pair("access_token", access_token)
                 ),
-                json = """
+                json = JSONObject("""
                     {
                         "usuario": "marcelr",
                         "seha": "dSRiejY0TSt4"
                     }
-                """
+                """)
         )
 
     }
@@ -56,12 +54,13 @@ class Integration(
 
         val token = getToken()
 
-        getLogin(token.access_token)
+        getLogin(token.access_token!!)
 
         val response = if(service.method == ServiceModel.Method.GET){
 
             GET(
                     url = service.url,
+                    headers = mapOf(Pair("Content-Type", "application/json")),
                     params = mapOf(
                             Pair("access_token", token.access_token!!)
                     )
@@ -74,7 +73,7 @@ class Integration(
                     url = service.url,
                     headers = mapOf(Pair("Content-Type", "application/json")),
                     params = mapOf(
-                            Pair("access_token", getToken().access_token!!)
+                            Pair("access_token", token.access_token!!)
                     ),
                     json = service.data
             )
@@ -84,7 +83,6 @@ class Integration(
         statusMongoRepository.save(StatusCode(response.statusCode, service.name, ZonedDateTime.now().toString()))
 
     }
-
 
 }
 

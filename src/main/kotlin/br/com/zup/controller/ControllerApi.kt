@@ -2,7 +2,6 @@ package br.com.zup.controller
 
 import br.com.zup.api.InterfaceApi
 import org.springframework.web.bind.annotation.RestController
-import br.com.zup.integration.Integration
 import br.com.zup.model.Service
 import br.com.zup.model.StatusCode
 import br.com.zup.repository.ServiceMongoRepository
@@ -13,7 +12,6 @@ import javax.validation.Valid
 
 @RestController
 class ControllerApi(
-        private val integration: Integration,
         private var serviceMongoRepository: ServiceMongoRepository,
         private var statusMongoRepository: StatusMongoRepository
 ) : InterfaceApi {

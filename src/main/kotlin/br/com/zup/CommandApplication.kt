@@ -6,11 +6,13 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
+import org.springframework.scheduling.annotation.EnableScheduling
 import java.net.InetAddress
 
 @SpringBootApplication
 @Configuration
 @EnableAutoConfiguration
+@EnableScheduling
 @ComponentScan(
         basePackages = ["br.com.zup"]
 )
@@ -35,5 +37,6 @@ fun main(args: Array<String>) {
                    |   External:   http://$hostAddress:$port$contextPath
                    |------------------------------------------------------------""".trimMargin()
     )
+
 
 }
