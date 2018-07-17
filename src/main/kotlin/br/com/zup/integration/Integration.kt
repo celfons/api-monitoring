@@ -29,12 +29,14 @@ class Integration(
                 )
         )
 
+        statusMongoRepository.save(StatusCode(response.statusCode, "token", ZonedDateTime.now().toString()))
+
         return jacksonObjectMapper().readValue(response.text)
     }
 
     private fun getLogin(access_token: String) {
 
-        POST(
+        val response: Response = POST(
                 url = "https://wsdesenv.hdi.com.br/rest/WebAppExecutivo.hdi/v1/login",
                 headers = mapOf(Pair("Content-Type", "application/json")),
                 params = mapOf(
@@ -47,6 +49,8 @@ class Integration(
                     }
                 """)
         )
+
+        statusMongoRepository.save(StatusCode(response.statusCode, "login", ZonedDateTime.now().toString()))
 
     }
 
@@ -67,7 +71,8 @@ class Integration(
             )
 
         }
-        else{
+
+        else {
 
             POST(
                     url = service.url,
