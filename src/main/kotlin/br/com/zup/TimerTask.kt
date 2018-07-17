@@ -14,7 +14,7 @@ class TimerTask(
     @Scheduled(fixedRate = 36000)
     fun run() {
 
-        val listServices = serviceMongoRepository.findAll()
+        val listServices = serviceMongoRepository.findAll().sortedBy { it.order }
 
         listServices.forEach{
             integration.integrationService(it)
