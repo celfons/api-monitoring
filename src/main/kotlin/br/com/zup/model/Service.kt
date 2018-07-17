@@ -12,7 +12,8 @@ data class Service(
         val url: String,
         val method: Method,
         val data: JsonNode?,
-        val queryParam: Map<String, String>? = mapOf()
+        val queryParam: Map<String, String>? = mapOf(),
+        val headers: Map<String, String>? = mapOf()
 ){
     enum class Method{
         GET,

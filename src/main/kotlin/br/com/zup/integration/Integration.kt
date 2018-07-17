@@ -64,10 +64,8 @@ class Integration(
 
             GET(
                     url = service.url,
-                    headers = mapOf(Pair("Content-Type", "application/json")),
-                    params = mapOf(
-                            Pair("access_token", token.access_token!!)
-                    ).plus(service.queryParam!!),
+                    headers = mapOf(Pair("Content-Type", "application/json")).plus(service.headers!!),
+                    params = mapOf(Pair("access_token", token.access_token!!)).plus(service.queryParam!!),
                     json = service.data
             )
 
@@ -77,10 +75,8 @@ class Integration(
 
             POST(
                     url = service.url,
-                    headers = mapOf(Pair("Content-Type", "application/json")),
-                    params = mapOf(
-                            Pair("access_token", token.access_token!!)
-                    ).plus(service.queryParam!!),
+                    headers = mapOf(Pair("Content-Type", "application/json")).plus(service.headers!!),
+                    params = mapOf(Pair("access_token", token.access_token!!)).plus(service.queryParam!!),
                     json = service.data
             )
 
