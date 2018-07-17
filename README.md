@@ -1,7 +1,6 @@
 # api-monitoring
 
 DOCKER,
-STUBBY4J,
 METABASE,
 MONGODB,
 KOTLIN,
