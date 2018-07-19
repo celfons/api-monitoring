@@ -19,8 +19,8 @@ class Integration(
 
             GET(
                     url = service.url,
-                    headers = mapOf(Pair("Content-Type", "application/json")).plus(service.headers!!),
-                    params =service.queryParam!!,
+                    headers = service.headers!!,
+                    params = service.queryParam!!,
                     json = service.data
             )
 
@@ -30,7 +30,7 @@ class Integration(
 
             POST(
                     url = service.url,
-                    headers = mapOf(Pair("Content-Type", "application/json")).plus(service.headers!!),
+                    headers = service.headers!!,
                     params = service.queryParam!!,
                     json = service.data
             )
