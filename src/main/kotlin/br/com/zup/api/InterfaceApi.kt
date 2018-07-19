@@ -39,7 +39,7 @@ interface InterfaceApi{
             method = [(RequestMethod.PUT)],
             produces = [(MediaType.APPLICATION_JSON_VALUE)]
     )
-    fun updateService(@PathVariable("serviceName") serviceName: String, @RequestBody @Valid service: Service): Service
+    fun updateService(@RequestBody @Valid service: Service): Service
 
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody

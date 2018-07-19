@@ -16,8 +16,10 @@ class TimerTask(
 
         val listServices = serviceMongoRepository.findAll().sortedBy { it.order }
 
+        val token = integration.getToken()
+
         listServices.forEach{
-            integration.integrationService(it)
+            integration.integrationService(it, token)
         }
 
     }
