@@ -35,26 +35,19 @@ class Integration(
 
     fun integrationService(service: ServiceModel, token: Token){
 
-        val response = if(service.method == ServiceModel.Method.GET){
-
-            GET(
+        val response = when {
+            service.method == ServiceModel.Method.GET -> GET(
                     url = service.url,
                     headers = mapOf(Pair("Content-Type", "application/json")).plus(service.headers!!),
                     params = mapOf(Pair("access_token", token.access_token!!)).plus(service.queryParam!!),
                     json = service.data
             )
-
-        }
-
-        else {
-
-            POST(
+            else -> POST(
                     url = service.url,
                     headers = mapOf(Pair("Content-Type", "application/json")).plus(service.headers!!),
                     params = mapOf(Pair("access_token", token.access_token!!)).plus(service.queryParam!!),
                     json = service.data
             )
-
         }
 
         statusMongoRepository.save(StatusCode(response.statusCode, service.name, ZonedDateTime.now().toString()))

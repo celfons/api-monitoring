@@ -17,6 +17,9 @@ class ControllerApi(
 ) : InterfaceApi {
 
     override fun createService(@RequestBody @Valid service: Service): Service {
+        serviceMongoRepository.findServiceByName(service.name)?.let {
+            return it
+        }
         return serviceMongoRepository.save(service)
     }
 
@@ -25,6 +28,9 @@ class ControllerApi(
     }
 
     override fun updateService(@RequestBody @Valid service: Service): Service {
+        serviceMongoRepository.findServiceByName(service.name)?.let {
+            serviceMongoRepository.delete(it)
+        }
         return serviceMongoRepository.save(service)
     }
 
