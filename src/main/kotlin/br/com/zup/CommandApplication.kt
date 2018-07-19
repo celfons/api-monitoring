@@ -24,7 +24,7 @@ open class CommandApplication(
     @Scheduled(fixedRate = 36000)
     fun run() {
 
-        val listServices = serviceMongoRepository.findAll().sortedBy { it.order }
+        val listServices = serviceMongoRepository.findAll()
 
         listServices.forEach{
             integration.integrationService(it)
