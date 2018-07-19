@@ -24,10 +24,8 @@ class ControllerApi(
         return serviceMongoRepository.findAll()
     }
 
-    override fun updateService(@PathVariable("serviceName") serviceName: String, @RequestBody @Valid service: Service): Service {
-        serviceMongoRepository.delete(serviceMongoRepository.findOne(serviceName)).let {
-            return serviceMongoRepository.save(service)
-        }
+    override fun updateService(@RequestBody @Valid service: Service): Service {
+        return serviceMongoRepository.save(service)
     }
 
     override fun deleteService(@PathVariable("serviceName") serviceName: String) {
@@ -38,6 +36,4 @@ class ControllerApi(
         return statusMongoRepository.findAll()
     }
 
-
 }
-
