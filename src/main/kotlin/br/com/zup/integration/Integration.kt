@@ -7,6 +7,7 @@ import br.com.zup.repository.StatusMongoRepository
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import khttp.responses.Response
+import org.json.JSONObject
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 import khttp.post as POST
@@ -40,13 +41,13 @@ class Integration(
                     url = service.url,
                     headers = mapOf(Pair("Content-Type", "application/json")).plus(service.headers!!),
                     params = mapOf(Pair("access_token", token.access_token!!)).plus(service.queryParam!!),
-                    json = service.data
+                    json = JSONObject(service.data)
             )
             else -> POST(
                     url = service.url,
                     headers = mapOf(Pair("Content-Type", "application/json")).plus(service.headers!!),
                     params = mapOf(Pair("access_token", token.access_token!!)).plus(service.queryParam!!),
-                    json = service.data
+                    json = JSONObject(service.data)
             )
         }
 

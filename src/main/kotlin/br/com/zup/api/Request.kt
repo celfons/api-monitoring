@@ -1,16 +1,12 @@
-package br.com.zup.model
+package br.com.zup.api
 
-import org.springframework.data.mongodb.core.mapping.Document
-import org.springframework.data.annotation.Id
+import com.fasterxml.jackson.databind.JsonNode
 
-@Document(collection="service")
-data class Service(
-        @Id
-        val id: String? = null,
+data class Request(
         val name: String,
         val url: String,
         val method: Method,
-        val data: String?,
+        val data: JsonNode?,
         val order: Int,
         val queryParam: Map<String, String>? = mapOf(),
         val headers: Map<String, String>? = mapOf()

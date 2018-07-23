@@ -1,6 +1,7 @@
 package br.com.zup.controller
 
 import br.com.zup.api.InterfaceApi
+import br.com.zup.api.Request
 import org.springframework.web.bind.annotation.RestController
 import br.com.zup.model.Service
 import br.com.zup.model.StatusCode
@@ -16,10 +17,11 @@ class ControllerApi(
         private var statusMongoRepository: StatusMongoRepository
 ) : InterfaceApi {
 
-    override fun createService(@RequestBody @Valid service: Service): Service {
-        serviceMongoRepository.findServiceByName(service.name)?.let {
+    override fun createService(@RequestBody @Valid request: Request): Service {
+        serviceMongoRepository.findServiceByName(request.name)?.let {
             return it
         }
+        val service = toService(request)
         return serviceMongoRepository.save(service)
     }
 
@@ -27,10 +29,11 @@ class ControllerApi(
         return serviceMongoRepository.findAll()
     }
 
-    override fun updateService(@RequestBody @Valid service: Service): Service {
-        serviceMongoRepository.findServiceByName(service.name)?.let {
+    override fun updateService(@RequestBody @Valid request: Request): Service {
+        serviceMongoRepository.findServiceByName(request.name)?.let {
             serviceMongoRepository.delete(it)
         }
+        val service = toService(request)
         return serviceMongoRepository.save(service)
     }
 
@@ -40,6 +43,18 @@ class ControllerApi(
 
     override fun listStatus(): MutableList<StatusCode>? {
         return statusMongoRepository.findAll()
+    }
+
+    private fun toService(request: Request): Service {
+        return Service(
+                name = request.name,
+                url = request.url,
+                method = Service.Method.valueOf(request.method.name),
+                headers = request.headers,
+                queryParam = request.queryParam,
+                data = request.data.toString(),
+                order = request.order
+        )
     }
 
 }
