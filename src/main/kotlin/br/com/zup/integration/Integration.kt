@@ -3,6 +3,7 @@ package br.com.zup.integration
 import br.com.zup.model.StatusCode
 import br.com.zup.model.Service as ServiceModel
 import br.com.zup.repository.StatusMongoRepository
+import org.json.JSONObject
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 import khttp.post as POST
@@ -20,13 +21,13 @@ class Integration(
                     url = service.url,
                     headers = service.headers!!,
                     params = service.queryParam!!,
-                    json = service.data
+                    json = JSONObject(service.data)
             )
             else -> POST(
                     url = service.url,
                     headers = service.headers!!,
                     params = service.queryParam!!,
-                    json = service.data
+                    json = JSONObject(service.data)
             )
         }
 

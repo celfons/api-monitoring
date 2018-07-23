@@ -21,7 +21,7 @@ interface InterfaceApi{
             method = [(RequestMethod.POST)],
             produces = [(MediaType.APPLICATION_JSON_VALUE)]
     )
-    fun createService(@RequestBody @Valid service: Service): Service
+    fun createService(@RequestBody @Valid request: Request): Service
 
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -39,7 +39,7 @@ interface InterfaceApi{
             method = [(RequestMethod.PUT)],
             produces = [(MediaType.APPLICATION_JSON_VALUE)]
     )
-    fun updateService(@RequestBody @Valid service: Service): Service
+    fun updateService(@RequestBody @Valid request: Request): Service
 
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
