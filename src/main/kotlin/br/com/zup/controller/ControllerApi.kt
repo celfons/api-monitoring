@@ -38,7 +38,9 @@ class ControllerApi(
     }
 
     override fun deleteService(@PathVariable("serviceName") serviceName: String) {
-        serviceMongoRepository.delete(serviceName)
+        serviceMongoRepository.findServiceByName(serviceName)?.let {
+            serviceMongoRepository.delete(it)
+        }
     }
 
     override fun listStatus(): MutableList<StatusCode>? {
