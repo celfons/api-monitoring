@@ -21,12 +21,11 @@ open class CommandApplication(
         private val integration: Integration,
         private var serviceMongoRepository: ServiceMongoRepository
 ){
+
     @Scheduled(fixedRate = 36000)
     fun run() {
 
-        val listServices = serviceMongoRepository.findAll()
-
-        listServices.forEach{
+        serviceMongoRepository.findAll().forEach{
             integration.integrationService(it)
         }
 

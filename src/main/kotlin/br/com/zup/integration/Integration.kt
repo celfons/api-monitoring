@@ -17,18 +17,20 @@ class Integration(
     fun integrationService(service: ServiceModel){
 
         val response = when {
-            service.method == ServiceModel.Method.GET -> GET(
+            service.method == ServiceModel.Method.GET ->
+                GET(
                     url = service.url,
                     headers = service.headers!!,
                     params = service.queryParam!!,
                     json = JSONObject(service.data)
-            )
-            else -> POST(
+                )
+            else ->
+                POST(
                     url = service.url,
                     headers = service.headers!!,
                     params = service.queryParam!!,
                     json = JSONObject(service.data)
-            )
+                )
         }
 
         statusMongoRepository.save(StatusCode(response.statusCode, service.name, ZonedDateTime.now().toString()))

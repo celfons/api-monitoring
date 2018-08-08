@@ -2,60 +2,33 @@ package br.com.zup.controller
 
 import br.com.zup.api.InterfaceApi
 import br.com.zup.api.Request
-import org.springframework.web.bind.annotation.RestController
 import br.com.zup.model.Service
+import org.springframework.web.bind.annotation.RestController
 import br.com.zup.model.StatusCode
-import br.com.zup.repository.ServiceMongoRepository
-import br.com.zup.repository.StatusMongoRepository
+import br.com.zup.service.ServiceApi
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import javax.validation.Valid
 
 @RestController
 class ControllerApi(
-        private var serviceMongoRepository: ServiceMongoRepository,
-        private var statusMongoRepository: StatusMongoRepository
-) : InterfaceApi {
+        private var serviceApi: ServiceApi
+): InterfaceApi {
 
-    override fun createService(@RequestBody @Valid request: Request): Service {
-        serviceMongoRepository.findServiceByName(request.name)?.let {
-            return it
-        }
-        val service = toService(request)
-        return serviceMongoRepository.save(service)
-    }
+    override fun createService(@RequestBody @Valid request: Request): Service =
+            serviceApi.createService(request)
 
-    override fun readService(): MutableList<Service>? {
-        return serviceMongoRepository.findAll()
-    }
+    override fun readService(): MutableList<Service>? =
+            serviceApi.readService()
 
-    override fun updateService(@RequestBody @Valid request: Request): Service {
-        serviceMongoRepository.findServiceByName(request.name)?.let {
-            serviceMongoRepository.delete(it)
-        }
-        val service = toService(request)
-        return serviceMongoRepository.save(service)
-    }
+    override fun updateService(@RequestBody @Valid request: Request): Service =
+            serviceApi.updateService(request)
 
-    override fun deleteService(@PathVariable("serviceName") serviceName: String) {
-        serviceMongoRepository.findServiceByName(serviceName)?.let {
-            serviceMongoRepository.delete(it)
-        }
-    }
+    override fun deleteService(@PathVariable("serviceName") serviceName: String)  =
+            serviceApi.deleteService(serviceName)
 
-    override fun listStatus(): MutableList<StatusCode>? {
-        return statusMongoRepository.findAll()
-    }
-
-    private fun toService(request: Request): Service {
-        return Service(
-                name = request.name,
-                url = request.url,
-                method = Service.Method.valueOf(request.method.name),
-                headers = request.headers,
-                queryParam = request.queryParam,
-                data = request.data.toString()
-        )
-    }
+    override fun listStatus(): MutableList<StatusCode>? =
+            serviceApi.listStatus()
 
 }
