@@ -14,9 +14,9 @@ class ServiceApi(
     fun createService(request: Request): ServiceModel =
             findServiceByName(request.name)?.let {
                 it
-            }.also {
+            }.let {
                 serviceMongoRepository.save(toService(request))
-            }!!
+            }
 
     fun readService(): MutableList<ServiceModel>? =
             serviceMongoRepository.findAll()
