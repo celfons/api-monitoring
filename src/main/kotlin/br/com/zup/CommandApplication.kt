@@ -23,13 +23,12 @@ open class CommandApplication(
 ){
 
     @Scheduled(fixedRate = 36000)
-    fun run() {
+    fun run() =
 
-        serviceMongoRepository.findAll().forEach{
-            integration.integrationService(it)
-        }
+            serviceMongoRepository.findAll().forEach {
+                integration.integrationService(it)
+            }
 
-    }
 }
 
 fun main(args: Array<String>) {

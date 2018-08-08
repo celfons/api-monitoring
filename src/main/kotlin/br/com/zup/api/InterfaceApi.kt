@@ -1,6 +1,6 @@
 package br.com.zup.api
 
-import br.com.zup.model.Service
+import br.com.zup.model.ServiceModel
 import br.com.zup.model.StatusCode
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -21,7 +21,7 @@ interface InterfaceApi{
             method = [(RequestMethod.POST)],
             produces = [(MediaType.APPLICATION_JSON_VALUE)]
     )
-    fun createService(@RequestBody @Valid request: Request): Service
+    fun createService(@RequestBody @Valid request: Request): ServiceModel
 
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -30,7 +30,7 @@ interface InterfaceApi{
             method = [(RequestMethod.GET)],
             produces = [(MediaType.APPLICATION_JSON_VALUE)]
     )
-    fun readService(): MutableList<Service>?
+    fun readService(): MutableList<ServiceModel>?
 
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -39,7 +39,7 @@ interface InterfaceApi{
             method = [(RequestMethod.PUT)],
             produces = [(MediaType.APPLICATION_JSON_VALUE)]
     )
-    fun updateService(@RequestBody @Valid request: Request): Service
+    fun updateService(@RequestBody @Valid request: Request): ServiceModel
 
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody

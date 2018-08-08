@@ -10,8 +10,8 @@ data class Request(
         val order: Int,
         val queryParam: Map<String, String>? = mapOf(),
         val headers: Map<String, String>? = mapOf()
-){
-    enum class Method{
+) {
+    enum class Method {
         GET,
         POST
     }

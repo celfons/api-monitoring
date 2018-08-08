@@ -4,7 +4,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.annotation.Id
 
 @Document(collection="service")
-data class Service(
+data class ServiceModel(
         @Id
         val id: String? = null,
         val name: String,
@@ -16,6 +16,8 @@ data class Service(
 ){
     enum class Method{
         GET,
-        POST
+        POST,
+        PUT,
+        DELETE
     }
 }
