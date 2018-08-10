@@ -24,7 +24,7 @@ class ControllerApi(
     override fun updateService(@RequestBody @Valid request: Request): ServiceModel =
             serviceApi.updateService(request)
 
-    override fun deleteService(@PathVariable("serviceName") serviceName: String) =
+    override fun deleteService(@PathVariable("serviceName") serviceName: String): Unit? =
             serviceApi.deleteService(serviceName)
 
     override fun listStatus(): MutableList<StatusCode>? =

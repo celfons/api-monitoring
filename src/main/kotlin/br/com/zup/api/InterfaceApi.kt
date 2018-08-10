@@ -48,7 +48,7 @@ interface InterfaceApi{
             method = [(RequestMethod.DELETE)],
             produces = [(MediaType.APPLICATION_JSON_VALUE)]
     )
-    fun deleteService(@PathVariable("serviceName") serviceName: String)
+    fun deleteService(@PathVariable("serviceName") serviceName: String): Unit?
 
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody

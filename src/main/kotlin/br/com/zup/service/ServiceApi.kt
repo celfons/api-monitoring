@@ -27,17 +27,15 @@ class ServiceApi(
                 serviceMongoRepository.save(request.toServiceModel())
             }
 
-    fun deleteService(serviceName: String) {
-        findServiceByName(serviceName)?.let {
-            serviceMongoRepository.delete(it)
-        }
-    }
+    fun deleteService(serviceName: String): Unit? =
+            findServiceByName(serviceName)?.let {
+                serviceMongoRepository.delete(it)
+            }
 
     fun listStatus(): MutableList<StatusCode>? =
             statusMongoRepository.findAll()
 
     private fun findServiceByName(serviceName: String): ServiceModel? =
             serviceMongoRepository.findServiceByName(serviceName)
-
 
 }
