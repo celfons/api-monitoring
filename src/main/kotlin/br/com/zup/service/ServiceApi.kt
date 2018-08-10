@@ -1,6 +1,7 @@
 package br.com.zup.service
 
 import br.com.zup.api.Request
+import br.com.zup.api.toServiceModel
 import br.com.zup.model.ServiceModel
 import br.com.zup.model.StatusCode
 import br.com.zup.repository.ServiceMongoRepository
@@ -15,7 +16,7 @@ class ServiceApi(
             findServiceByName(request.name)?.let {
                 it
             }.let {
-                serviceMongoRepository.save(toService(request))
+                serviceMongoRepository.save(request.toServiceModel())
             }
 
     fun readService(): MutableList<ServiceModel>? =
@@ -23,7 +24,7 @@ class ServiceApi(
 
     fun updateService(request: Request): ServiceModel =
             deleteService(request.name).run {
-                serviceMongoRepository.save(toService(request))
+                serviceMongoRepository.save(request.toServiceModel())
             }
 
     fun deleteService(serviceName: String) {
@@ -38,14 +39,5 @@ class ServiceApi(
     private fun findServiceByName(serviceName: String): ServiceModel? =
             serviceMongoRepository.findServiceByName(serviceName)
 
-    private fun toService(request: Request): ServiceModel =
-            ServiceModel(
-                    name = request.name,
-                    url = request.url,
-                    method = ServiceModel.Method.valueOf(request.method.name),
-                    headers = request.headers,
-                    queryParam = request.queryParam,
-                    data = request.data.toString()
-            )
 
 }
