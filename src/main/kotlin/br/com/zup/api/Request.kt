@@ -14,7 +14,9 @@ data class Request(
 ) {
     enum class Method {
         GET,
-        POST
+        POST,
+        PUT,
+        DELETE
     }
 }
 
