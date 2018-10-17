@@ -3,7 +3,7 @@ package br.com.zup.model
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.annotation.Id
 
-@Document(collection="service")
+@Document(collection="services")
 data class ServiceModel(
         @Id
         val id: String? = null,

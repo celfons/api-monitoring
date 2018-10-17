@@ -1,41 +1,57 @@
 package br.com.zup.service
 
 import br.com.zup.api.Request
-import br.com.zup.api.toServiceModel
-import br.com.zup.model.ServiceModel
+import br.com.zup.model.ServiceModel as Service
 import br.com.zup.model.StatusCode
 import br.com.zup.repository.ServiceMongoRepository
 import br.com.zup.repository.StatusMongoRepository
+import org.springframework.stereotype.Component
 
+@Component
 class ServiceApi(
         private var serviceMongoRepository: ServiceMongoRepository,
         private var statusMongoRepository: StatusMongoRepository
 )  {
 
-    fun createService(request: Request): ServiceModel =
-            findServiceByName(request.name)?.let {
-                it
-            }.let {
-                serviceMongoRepository.save(request.toServiceModel())
-            }
+    fun createService(request: Request): Service {
+        serviceMongoRepository.findServiceByName(request.name)?.let {
+            return it
+        }
+        val service = toService(request)
+        return serviceMongoRepository.save(service)
+    }
 
-    fun readService(): MutableList<ServiceModel>? =
-            serviceMongoRepository.findAll()
+    fun readService(): MutableList<Service>? {
+        return serviceMongoRepository.findAll()
+    }
 
-    fun updateService(request: Request): ServiceModel =
-            deleteService(request.name).run {
-                serviceMongoRepository.save(request.toServiceModel())
-            }
+    fun updateService(request: Request): Service {
+        serviceMongoRepository.findServiceByName(request.name)?.let {
+            serviceMongoRepository.delete(it)
+        }
+        val service = toService(request)
+        return serviceMongoRepository.save(service)
+    }
 
-    fun deleteService(serviceName: String): Unit? =
-            findServiceByName(serviceName)?.let {
-                serviceMongoRepository.delete(it)
-            }
+    fun deleteService(serviceName: String) {
+        serviceMongoRepository.findServiceByName(serviceName)?.let {
+            serviceMongoRepository.delete(it)
+        }
+    }
 
-    fun listStatus(): MutableList<StatusCode>? =
-            statusMongoRepository.findAll()
+    fun listStatus(): MutableList<StatusCode>? {
+        return statusMongoRepository.findAll()
+    }
 
-    private fun findServiceByName(serviceName: String): ServiceModel? =
-            serviceMongoRepository.findServiceByName(serviceName)
+    private fun toService(request: Request): Service {
+        return Service(
+                name = request.name,
+                url = request.url,
+                method = Service.Method.valueOf(request.method.name),
+                headers = request.headers,
+                queryParam = request.queryParam,
+                data = request.data.toString()
+        )
+    }
 
 }
